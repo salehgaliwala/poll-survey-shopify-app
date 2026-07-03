@@ -145,7 +145,7 @@ export function SurveyBuilder({ initialData, onSave, isLoading }) {
             </InlineStack>
 
             <Layout>
-              <Layout.Section variant="oneHalf">
+              <Layout.Section oneHalf>
                 <TextField
                   label="Question Title"
                   value={question.title}
@@ -153,7 +153,7 @@ export function SurveyBuilder({ initialData, onSave, isLoading }) {
                   autoComplete="off"
                 />
               </Layout.Section>
-              <Layout.Section variant="oneHalf">
+              <Layout.Section oneHalf>
                 <Select
                   label="Question Type"
                   options={QUESTION_TYPES}
@@ -206,7 +206,7 @@ export function SurveyBuilder({ initialData, onSave, isLoading }) {
           </BlockStack>
         </Layout.Section>
 
-        <Layout.Section variant="oneThird">
+        <Layout.Section oneThird>
           <BlockStack gap="500">
             <Card>
               <BlockStack gap="400">

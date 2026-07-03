@@ -67,7 +67,7 @@ export default function Index() {
                       accessibilityLabel={`View details for ${title}`}
                     >
                       <Layout>
-                        <Layout.Section variant="oneHalf">
+                        <Layout.Section oneHalf>
                           <Text variant="bodyMd" fontWeight="bold" as="h3">
                             {title}
                           </Text>
@@ -75,12 +75,12 @@ export default function Index() {
                             Updated on {date}
                           </div>
                         </Layout.Section>
-                        <Layout.Section variant="oneThird">
+                        <Layout.Section oneThird>
                           <Badge tone={status === "ACTIVE" ? "success" : "attention"}>
                             {status}
                           </Badge>
                         </Layout.Section>
-                        <Layout.Section variant="oneThird">
+                        <Layout.Section oneThird>
                           <Text as="span" variant="bodyMd">
                             {_count.responses} responses
                           </Text>

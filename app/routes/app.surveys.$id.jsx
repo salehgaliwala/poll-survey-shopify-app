@@ -104,13 +104,13 @@ export default function SurveyDetails() {
                         Summary
                       </Text>
                       <Layout>
-                        <Layout.Section variant="oneThird">
+                        <Layout.Section oneThird>
                           <Card background="bg-surface-secondary">
                             <Text variant="headingLg" as="p">{responses.length}</Text>
                             <Text variant="bodyMd" as="p">Total Responses</Text>
                           </Card>
                         </Layout.Section>
-                        <Layout.Section variant="oneThird">
+                        <Layout.Section oneThird>
                           <Card background="bg-surface-secondary">
                             <Text variant="headingLg" as="p">
                               {survey.status === "ACTIVE" ? "Active" : "Draft"}
