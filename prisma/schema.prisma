@@ -1,0 +1,124 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+  refreshToken  String?
+  refreshTokenExpiresAt DateTime?
+}
+
+model Shop {
+  id            String   @id @default(cuid())
+  shopifyDomain String   @unique
+  accessToken   String?
+  name          String?
+  email         String?
+  surveys       Survey[]
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Survey {
+  id              String       @id @default(cuid())
+  shopId          String
+  shop            Shop         @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  status          SurveyStatus @default(DRAFT)
+
+  // Customization
+  primaryColor    String?      @default("#008060")
+  textColor       String?      @default("#202223")
+  backgroundColor String?      @default("#ffffff")
+  placement       Placement    @default(INLINE)
+
+  // Incentives
+  incentiveEnabled Boolean     @default(false)
+  discountTitle    String?
+  discountType     String?     // 'percentage' | 'fixed_amount'
+  discountValue    String?
+
+  questions       Question[]
+  responses       Response[]
+
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model Question {
+  id          String       @id @default(cuid())
+  surveyId    String
+  survey      Survey       @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  type        QuestionType
+  title       String
+  helpText    String?
+  required    Boolean      @default(false)
+  order       Int          @default(0)
+  options     Json?        // Array of options for MULTIPLE_CHOICE
+
+  answers     Answer[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Response {
+  id            String   @id @default(cuid())
+  surveyId      String
+  survey        Survey   @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  customerId    String?
+  customerEmail String?
+  answers       Answer[]
+  createdAt     DateTime @default(now())
+}
+
+model Answer {
+  id         String   @id @default(cuid())
+  responseId String
+  response   Response @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  value      String
+}
+
+enum SurveyStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+enum Placement {
+  POPUP
+  INLINE
+  POST_PURCHASE
+}
+
+enum QuestionType {
+  MULTIPLE_CHOICE
+  TEXT_INPUT
+  STAR_RATING
+  NPS
+}

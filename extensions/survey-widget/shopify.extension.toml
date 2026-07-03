@@ -1,0 +1,8 @@
+name = "Survey Widget"
+handle = "survey-widget"
+type = "theme_app_extension"
+
+[[blocks]]
+name = "Survey Widget"
+target = "section"
+template = "survey_block.liquid"
